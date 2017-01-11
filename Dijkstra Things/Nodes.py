@@ -1,38 +1,53 @@
 import time
 
-#Bah Humbug
 
 print("Lets Do some Dijkstra")
 
+#the node class references each point on the map
 class Node:
 
+    #this is the initialisation of the node class
     def __init__(self, name):
         self.name = name
         self.weight = 100
         self.start = False
         self.end = False
         self.closed = False
+        self.path = 0
         self.bridges = []
         self.bridgesWeight = []
         print ("Node %d created"  % (self.name,))
     
+    #this method adds a bridge between two nodes
+    #It only adds a one way bridge, so a matching node must be added for a 2 way movement map
     def addBridge(self, name, weight):
         self.bridges.append(name)
         self.bridgesWeight.append(weight)
         print ("Bridge created between %d and %d of weight %d " % ( self.name, name, weight, ))
-        
+    
+    #this method returns a list of lists of each bridge connected to the chosen node       
     def listBridges(self):
-        print ("The bridges for %d are:" % ( self.name, ))
+        print ("Analyzing bridges from node %d:" % ( self.name, ))
         bridges = [[] for i in range(len(self.bridges))]
         for index in range(len(self.bridges)):
             bridges[index].append(self.bridges[index])
             bridges[index].append(self.bridgesWeight[index])
         return bridges
 
+#this method is not neccacary but makes the program look nicer
 def wait():
-    time.sleep(5)
+    time.sleep(1)
 
+#this method is where everything happens
 def start():
+
+    #this method is inside start so that it has access to the created nodes
+    def findPath(i):
+        print(node[i].path)
+        if(node[i].path == 0):
+            print("The path is finished")
+        else:
+            findPath(node[i].path)
 
     node = []
 
@@ -101,25 +116,20 @@ def start():
             break
         else:
             print("No end found yet")
-        
 
         for index in range(len(currentBridges)):
             if (node[currentBridges[index][0]].weight > node[currentNode].weight + currentBridges[index][1]):
                 node[currentBridges[index][0]].weight = node[currentNode].weight + currentBridges[index][1]
+                node[currentBridges[index][0]].path = currentNode
             print(node[currentBridges[index][0]].weight)
-                
-        
+                     
         node[currentNode].closed = True
         
         lastNode = currentNode;
         wait()
 
-    print(node[0].weight)
-    print(node[1].weight)
-    print(node[2].weight)
-    print(node[3].weight)
-    print(node[4].weight)
-    print(node[5].weight)
-    print(node[6].weight)
-
+    print("The shortest path from node %d to %d is:" % ( node[0].name, node[5].name,))
+    
+    findPath(5)
+    
 start()
