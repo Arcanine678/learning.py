@@ -1,5 +1,8 @@
-import time
+#Author: Phire
+#This is a node based dijkstra style shortest path agorithm for the graph:
+#http://www.reviewmylife.co.uk/data/2008/0715/dijkstras-graph.gif
 
+import time
 
 print("Lets Do some Dijkstra")
 
